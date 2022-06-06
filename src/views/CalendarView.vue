@@ -11,7 +11,7 @@
           v-for="(day, index) in days"
           :key="index"
           :day="day"
-          v-on:click="setClickedDay(day)" />
+          @click-day="setClickedDay(day)" />
       </div>
     </div>
 
@@ -122,6 +122,7 @@ export default {
       if (!day.padding) {
         this.clicked = day.date;
       }
+      console.log('[this.clicked]', day); // TODO: remove this
     },
   },
 };
