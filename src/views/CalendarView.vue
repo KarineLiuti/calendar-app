@@ -15,7 +15,7 @@
           v-for="(day, index) in days"
           :key="index"
           :day="day"
-          @click-day="setClickedDay(day)" />
+          @click-day="setClicked(day)" />
       </div>
     </div>
 
@@ -37,7 +37,7 @@
       <button id="closeButton">Close</button>
     </div>
     <button @click="addEvent({
-      title: 'watter', date: clicked, id: Math.random().toString(), color: ''
+      title: 'watter', id: Math.random().toString(), color: ''
       })">Add</button>
      <div id="modalBackDrop"></div>
   </div>
@@ -65,7 +65,6 @@ export default {
       days: [],
       weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       dateDisplay: undefined,
-      clicked: undefined,
     };
   },
   computed: {
@@ -83,12 +82,8 @@ export default {
   methods: {
     ...mapActions('calendar', [
       'addEvent',
+      'setClicked',
     ]),
-    setClickedDay(day) {
-      if (!day.padding) {
-        this.clicked = day.date;
-      }
-    },
     goToNextMonth() {
       this.nav += 1;
     },
