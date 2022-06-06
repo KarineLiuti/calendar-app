@@ -1,7 +1,11 @@
 <template>
   <div>
      <div id="container">
-       <CalendarHeader />
+       <CalendarHeader
+        :dateDisplay="dateDisplay"
+        @next-month="goToNextMonth"
+        @previous-month="goToPreviousMonth" />
+
       <div id="weekdays" >
         <div v-for="day in weekDays" :key="day">{{day}}</div>
       </div>
@@ -32,71 +36,22 @@
       <button id="deleteButton">Delete</button>
       <button id="closeButton">Close</button>
     </div>
-
+    <button @click="addEvent({
+      title: 'watter', date: clicked, id: Math.random().toString(), color: ''
+      })">Add</button>
      <div id="modalBackDrop"></div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import CalendarHeader from '@/components/CalendarHeader.vue';
 import CalendarDay from '@/components/CalendarDay.vue';
 
 export default {
-  created() {
-    this.events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
-  },
   mounted() {
-    const dt = new Date();
-
-    if (this.nav !== 0) {
-      dt.setMonth(new Date().getMonth() + this.nav);
-    }
-
-    const day = dt.getDate();
-    const month = dt.getMonth();
-    const year = dt.getFullYear();
-
-    const firstDayOfMonth = new Date(year, month, 1);
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    });
-
-    this.dateDisplay = `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
-
-    const paddingDays = this.weekDays.indexOf(dateString.split(', ')[0]);
-
-    const daysArr = [];
-
-    for (let i = 1; i <= paddingDays + daysInMonth; i += 1) {
-      const dayString = `${month + 1}/${i - paddingDays}/${year}`;
-
-      if (i > paddingDays) {
-        daysArr.push({
-          value: i - paddingDays,
-          padding: false,
-          events: this.eventsForDate(dayString),
-          isCurrentDay: i - paddingDays === day && this.nav === 0,
-          date: dayString,
-        });
-      } else {
-        daysArr.push({
-          value: i - paddingDays,
-          padding: true,
-          events: null,
-          isCurrentDay: false,
-          date: dayString,
-        });
-      }
-    }
-
-    this.days = daysArr;
+    this.render();
   },
-
   name: 'CalendarView',
   props: {
   },
@@ -111,18 +66,83 @@ export default {
       weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       dateDisplay: undefined,
       clicked: undefined,
-      events: [],
     };
   },
-  methods: {
-    eventsForDate() {
-      return this.events.filter((a) => a.date === 'a');
+  computed: {
+    dateDisplayComputed() {
+      return this.dateDisplay;
     },
+  },
+  watch: {
+    nav(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.render();
+      }
+    },
+  },
+  methods: {
+    ...mapActions('calendar', [
+      'addEvent',
+    ]),
     setClickedDay(day) {
       if (!day.padding) {
         this.clicked = day.date;
       }
-      console.log('[this.clicked]', day); // TODO: remove this
+    },
+    goToNextMonth() {
+      this.nav += 1;
+    },
+    goToPreviousMonth() {
+      this.nav -= 1;
+    },
+    render() {
+      const dt = new Date();
+
+      if (this.nav !== 0) {
+        dt.setMonth(new Date().getMonth() + this.nav);
+      }
+
+      const day = dt.getDate();
+      const month = dt.getMonth();
+      const year = dt.getFullYear();
+
+      const firstDayOfMonth = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      });
+
+      this.dateDisplay = `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
+
+      const paddingDays = this.weekDays.indexOf(dateString.split(', ')[0]);
+
+      const daysArr = [];
+
+      for (let i = 1; i <= paddingDays + daysInMonth; i += 1) {
+        const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+
+        if (i > paddingDays) {
+          daysArr.push({
+            value: i - paddingDays,
+            padding: false,
+            isCurrentDay: i - paddingDays === day && this.nav === 0,
+            date: dayString,
+          });
+        } else {
+          daysArr.push({
+            value: i - paddingDays,
+            padding: true,
+            isCurrentDay: false,
+            date: dayString,
+          });
+        }
+      }
+
+      this.days = daysArr;
     },
   },
 };

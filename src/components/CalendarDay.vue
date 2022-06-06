@@ -3,20 +3,30 @@
     class="day"
     :class="{'padding': day.padding, 'currentDay': day.isCurrentDay}">
     {{getValue(day)}}
-    <div  class="event" v-if="day.events && day.events.length">
-      {{day.events}}
-
-      {{day.events.title}}
+    <div v-if="events.length">
+      <div class="event" v-for="event in events" :key="event.id">
+        {{event.title}}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  mounted() {
-  },
+  mounted() {},
   props: {
     day: {},
+  },
+  computed: {
+    ...mapGetters(
+      'calendar',
+      ['getEvents'],
+    ),
+    events() {
+      return this.getEvents.filter((event) => event.date === this.day.date);
+    },
   },
   methods: {
     getValue(day) {
