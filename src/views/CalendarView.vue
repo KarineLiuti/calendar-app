@@ -15,7 +15,7 @@
           v-for="(day, index) in days"
           :key="index"
           :day="day"
-          @click-day="setClicked(day)" />
+          @click-day="handleDay(day)" />
       </div>
     </div>
 
@@ -36,10 +36,12 @@
       <button id="deleteButton">Delete</button>
       <button id="closeButton">Close</button>
     </div>
-    <button @click="addEvent({
-      title: 'watter', id: Math.random().toString(), color: ''
-      })">Add</button>
-     <div id="modalBackDrop"></div>
+    <CalendarDialog
+      v-if="isEventOpened"
+      :dateDisplay="dateDisplay"
+      :isOpen="isEventOpened"
+      @close="closeEventsList()"
+    />
   </div>
 </template>
 
@@ -47,6 +49,7 @@
 import { mapActions } from 'vuex';
 import CalendarHeader from '@/components/CalendarHeader.vue';
 import CalendarDay from '@/components/CalendarDay.vue';
+import CalendarDialog from '@/components/CalendarDialog.vue';
 
 export default {
   mounted() {
@@ -58,6 +61,7 @@ export default {
   components: {
     CalendarHeader,
     CalendarDay,
+    CalendarDialog,
   },
   data() {
     return {
@@ -65,6 +69,7 @@ export default {
       days: [],
       weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       dateDisplay: undefined,
+      isEventOpened: false,
     };
   },
   computed: {
@@ -84,11 +89,21 @@ export default {
       'addEvent',
       'setClicked',
     ]),
+    handleDay(day) {
+      this.setClicked(day);
+      this.openEventsList();
+    },
     goToNextMonth() {
       this.nav += 1;
     },
     goToPreviousMonth() {
       this.nav -= 1;
+    },
+    openEventsList() {
+      this.isEventOpened = true;
+    },
+    closeEventsList() {
+      this.isEventOpened = false;
     },
     render() {
       const dt = new Date();

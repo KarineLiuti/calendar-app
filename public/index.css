@@ -2,7 +2,7 @@ body {
   display: flex;
   margin-top: 50px;
   justify-content: center;
-  background-color: #FFFCFF;
+  background-color: #FFF;
 }
 button {
   width: 75px;
@@ -27,7 +27,7 @@ button {
   background-color:#92a1d1;
 }
 #container {
-  width: 770px;
+  width: 1050px;
 }
 #weekdays {
   width: 100%;
@@ -35,8 +35,8 @@ button {
   color: #247BA0;
 }
 #weekdays div {
-  width: 100px;
-  padding: 10px;
+  width: 150px;
+  padding: 10px 10px 10px 5px;
 }
 #calendar {
   width: 100%;
@@ -45,9 +45,9 @@ button {
   flex-wrap: wrap;
 }
 .day {
-  width: 100px;
+  width: 140px;
   padding: 10px;
-  height: 100px;
+  height: 120px;
   cursor: pointer;
   box-sizing: border-box;
   background-color: white;
@@ -75,7 +75,7 @@ button {
 }
 .padding {
   cursor: default !important;
-  background-color: #FFFCFF !important;
+  background-color: #f7f7f7 !important;
   box-shadow: none !important;
 }
 #newEventModal, #deleteEventModal {
