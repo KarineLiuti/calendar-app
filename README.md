@@ -35,7 +35,7 @@ There are some features that I couldn't complete in time.
 - [x] Properly handle overflow when multiple reminders appear on the same date.
 - [x] Functionality to delete one or ALL the reminders for a specific day.
 
-#### Note: 
+##### Note: 
 Dear reviewer, during development I noticed that the [openweathermap api](https://openweathermap.org/forecast16#name16) just returns the weather for
 current date (`dt` value in `response` object).
 In that case, to get the weather information, I'm considering only events that has been saved in the same date. This is the condition that I assumed
