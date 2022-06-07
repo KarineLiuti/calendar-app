@@ -22,11 +22,8 @@ npm run test:unit
 
 ### Milestones
 
-There are some features that I couldn't complete in time.
-- [ ] Display reminders on the calendar view in the correct time order.
-- [ ] Unit test the functionality: Ability to add a new "reminder" (max 30 chars) for a user entered day and time. Also, include a city.
 
-### Done
+#### Done
 - [x] Ability to add a new "reminder" (max 30 chars) for a user entered day and time. Also, include a city.
 - [x] Allow the user to select color when creating a reminder and display it appropriately.
 - [x] Ability to edit reminders – including changing text, city, day, time and color.
@@ -35,11 +32,16 @@ There are some features that I couldn't complete in time.
 - [x] Properly handle overflow when multiple reminders appear on the same date.
 - [x] Functionality to delete one or ALL the reminders for a specific day.
 
-##### Note: 
+###### Note: 
 Dear reviewer, during development I noticed that the [openweathermap api](https://openweathermap.org/forecast16#name16) just returns the weather for
 current date (`dt` value in `response` object).
 In that case, to get the weather information, I'm considering only events that has been saved in the same date. This is the condition that I assumed
 to call this API. SO, to see this feature working, you can add an event for the current date that you are.
+
+#### To complete
+There are some features that I couldn't complete in time.
+- [ ] Display reminders on the calendar view in the correct time order.
+- [ ] Unit test the functionality: Ability to add a new "reminder" (max 30 chars) for a user entered day and time. Also, include a city.
 
 ### Contact author
 If you want to contact me, don't hesitate in send an email to karine.liuti@gmail.com
