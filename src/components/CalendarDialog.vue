@@ -22,10 +22,21 @@
         </v-toolbar>
         <v-layout class="mt-10" row>
           <v-flex xs12 sm5 offset-sm1>
-            <h2>Events for this day</h2>
-            <v-card class="mt-4">
-              <v-list>
-                  <template  v-for="(item, index) in getDayEvents">
+            <v-layout row wrap>
+              <v-flex xs8 sm8>
+                <h2>Events for {{getClicked}}</h2>
+              </v-flex>
+              <v-flex v-if="hasEvents" xs4 sm4>
+                <v-btn
+                  color="primary"
+                  outlined
+                  dark @click="removeAllEvents">Remove all</v-btn>
+              </v-flex>
+            </v-layout>
+
+            <v-card class="mt-4" v-if="hasEvents">
+              <v-list class="mt-8">
+                  <template v-for="(item, index) in getDayEvents">
                     <v-list-item
                       :key="index"
                     >
@@ -34,7 +45,7 @@
                           {{ item.title }}
                         </v-list-item-title>
                         <v-list-item-title>
-                          weather
+                           weather: {{item.weather || 'no information'}}
                         </v-list-item-title>
                       </v-list-item-content>
 
@@ -48,7 +59,7 @@
 
                       <v-list-item-action>
                         <v-btn icon>
-                          <v-icon @click.stop="deleteItem(index)">
+                          <v-icon @click.stop="deleteItem(item)">
                             mdi-delete
                           </v-icon>
                         </v-btn>
@@ -63,9 +74,19 @@
                   </template>
               </v-list>
             </v-card>
+            <v-alert
+              v-else
+              border="top"
+              colored-border
+              type="info"
+              elevation="2"
+              class="mt-4"
+            >
+              You don't have any event for this day. You can create one on the right form.
+            </v-alert>
           </v-flex>
           <v-flex xs12 sm4 offset-sm1>
-            <h2>Add new</h2>
+            <h3>Add or edit event</h3>
             <EventForm :update="eventToUpdate" />
           </v-flex>
         </v-layout>
@@ -102,15 +123,24 @@ export default {
   computed: {
     ...mapGetters(
       'calendar',
-      ['getDayEvents'],
+      ['getDayEvents', 'getClicked'],
     ),
+    hasEvents() {
+      return this.getDayEvents.length;
+    },
   },
   methods: {
-    ...mapActions('calendar', ['setEventIdToUpdate']),
+    ...mapActions('calendar', [
+      'setEventIdToUpdate',
+      'removeEvent',
+      'removeAllEvents',
+    ]),
     updateItem(item) {
       this.eventToUpdate = item;
     },
-    deleteItem() {},
+    deleteItem(item) {
+      this.removeEvent(item);
+    },
   },
 };
 </script>

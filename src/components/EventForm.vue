@@ -68,6 +68,7 @@
       v-model="selectedCity"
       :items="cities"
       :rules="[v => !!v || 'City is required']"
+      item-text="city"
       label="City"
       required
     ></v-select>
@@ -85,15 +86,19 @@
       class="mr-4"
       @click="reset"
     >
-      cancel
+      clear
     </v-btn>
   </v-form>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import cities from '../assets/constants/cities';
 
 export default {
+  mounted() {
+    this.cities = cities;
+  },
   props: {
     mode: {
       default: 'add',
@@ -112,12 +117,7 @@ export default {
       (v) => (v && v.length > 0 && v.length <= 30) || 'title must be less than 30 characters',
     ],
     selectedCity: null,
-    cities: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-    ],
+    cities: [],
     time: null,
     menu2: false,
     modal2: false,

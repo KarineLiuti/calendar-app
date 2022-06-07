@@ -4,14 +4,19 @@
     :class="{'padding': day.padding, 'currentDay': day.isCurrentDay}">
     {{getValue(day)}}
     <div v-if="events.length">
-      <div class="event mt-1"
+      <div class="event"
       v-for="(event, index) in eventsToShow" :key="event.id" :class="`color--${event.color}`">
-        <span v-if="index < 2">
-          {{event.title}}
-        </span>
+        <div v-if="index < 2">
+          <div>
+            {{event.title}}
+          </div>
+          <div>
+            weather: {{event.weather || 'no information'}}
+          </div>
+        </div>
       </div>
-      <h6 v-if="events.length > 2">view more</h6>
     </div>
+    <span class="view-more" style="font-size: 10px" v-if="events.length > 2">view more</span>
   </div>
 </template>
 
@@ -47,6 +52,11 @@ export default {
       this.$emit('click-day', day);
     },
   },
+  data() {
+    return {
+      citiesWeather: [],
+    };
+  },
 };
 </script>
 
@@ -60,4 +70,6 @@ export default {
 .color--red {
   background-color: rgb(240, 150, 150);
 }
+
+.view-more{ font-size: 10px; color: rgb(155, 154, 154); }
 </style>

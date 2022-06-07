@@ -2,16 +2,18 @@
   <div id="header">
     <div id="monthDisplay">{{dateDisplay}}</div>
     <div>
-      <button id="backButton" @click="goToPreviousMonth">Back</button>
-      <button id="nextButton"  @click="goToNextMonth">Next</button>
+      <v-btn class="mr-4" id="backButton" @click="goToPreviousMonth" text>
+        Previous
+      </v-btn>
+      <v-btn id="nextButton"  @click="goToNextMonth" color="primary">
+        Next
+      </v-btn>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  mounted() {
-  },
   props: {
     dateDisplay: String,
   },
