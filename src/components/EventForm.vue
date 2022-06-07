@@ -157,6 +157,7 @@ export default {
       this.$refs.form.validate();
       this.addEvent(this.form);
       this.reset();
+      this.close();
     },
     reset() {
       this.$refs.form.reset();
@@ -164,6 +165,9 @@ export default {
     ...mapActions('calendar', [
       'addEvent',
     ]),
+    close() {
+      this.$emit('close');
+    },
   },
 };
 </script>

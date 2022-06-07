@@ -8,10 +8,14 @@
       v-for="(event, index) in eventsToShow" :key="event.id" :class="`color--${event.color}`">
         <div v-if="index < 2">
           <div>
-            {{event.title}}
+            <strong>{{event.time}}</strong>
+             - {{event.title}}
           </div>
           <div>
-            weather: {{event.weather || 'no information'}}
+            <strong>
+              weather:
+            </strong>
+            {{event.weather || 'no information'}}
           </div>
         </div>
       </div>

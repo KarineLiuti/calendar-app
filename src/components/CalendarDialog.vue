@@ -26,8 +26,9 @@
               <v-flex xs8 sm8>
                 <h2>Events for {{getClicked}}</h2>
               </v-flex>
-              <v-flex v-if="hasEvents" xs4 sm4>
+              <v-flex v-if="hasEvents" xs4 sm4 class="row justify-end">
                 <v-btn
+                  class="justify-end mt-2"
                   color="primary"
                   outlined
                   dark @click="removeAllEvents">Remove all</v-btn>
@@ -42,10 +43,12 @@
                     >
                       <v-list-item-content>
                         <v-list-item-title>
+                          <h5>Event at {{item.time}}</h5>
                           {{ item.title }}
                         </v-list-item-title>
                         <v-list-item-title>
-                           weather: {{item.weather || 'no information'}}
+                          <h5>Weather: </h5>
+                          {{item.weather || 'no information'}}
                         </v-list-item-title>
                       </v-list-item-content>
 
@@ -87,7 +90,7 @@
           </v-flex>
           <v-flex xs12 sm4 offset-sm1>
             <h3>Add or edit event</h3>
-            <EventForm :update="eventToUpdate" />
+            <EventForm @close="() => this.$emit('close')" :update="eventToUpdate" />
           </v-flex>
         </v-layout>
       </v-card>
